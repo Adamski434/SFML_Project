@@ -2,38 +2,42 @@
 #include "SFML\Graphics.hpp"
 #include <iostream>
 #include <cmath>
+#include "OrbitingBalls.hpp"
 int main() {
-	sf::RenderWindow window(sf::VideoMode({ 1280, 720 }), "Studsa");
-	window.setFramerateLimit(60);
+	sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode({ 1280, 720 }), "Studsa");
+	window->setFramerateLimit(60);
+	sf::Vector2f Evildistance;
 
 	sf::CircleShape cirkel;
 	sf::Vector2f startposition(600,370);
 	cirkel.setFillColor(sf::Color::Green);
 	cirkel.setPosition(startposition);
 	cirkel.setRadius(50);
-	cirkel.setOrigin({ 50,50 });
+	cirkel.setOrigin(cirkel.getGeometricCenter());
 
 	sf::CircleShape Evilcirkel;
-	sf::Vector2f Evilstartposition(0, 0);
+	sf::Vector2f Evilstartposition(200,200);
 	Evilcirkel.setFillColor(sf::Color::Magenta);
-	Evilcirkel.setPosition({0,0});
+	Evilcirkel.setPosition(Evilstartposition);
 	Evilcirkel.setRadius(50);
-	Evilcirkel.setOrigin({ 50,50 });
+	Evilcirkel.setOrigin(Evilcirkel.getGeometricCenter());
+	std::cout << Evilcirkel.getPosition().x << Evilcirkel.getPosition().y<<"\n";
+	
+	OrbitingBalls orbitingBalls(2, Evilcirkel.getRadius() * 2, Evilcirkel.getPosition(),window);
 
 	//Physics variables
 	float xVelocity = 6;
 	float yVelocity = 6;
-	float Evil_xVelocity = 10;
-	float Evil_yVelocity = 10;
+	sf::Vector2f Evil_velocity = { 10,10 };
 
 
 
-	while (window.isOpen()) {
+	while (window->isOpen()) {
 		
 
-		while (const std::optional event = window.pollEvent()) {
+		while (const std::optional event = window->pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
-				window.close();
+				window->close();
 			}
 		}
 
@@ -54,34 +58,29 @@ int main() {
 		if (startposition.x > 1190 || startposition.x < 0) xVelocity*= -1;
 		if (startposition.y > 630 || startposition.y < 0) yVelocity *= -1;
 
-		Evilstartposition.x += Evil_xVelocity;
-		Evilstartposition.y += Evil_yVelocity;
+		Evilstartposition += Evil_velocity;
+	
+		Evildistance = Evilstartposition - Evilcirkel.getPosition();
 		Evilcirkel.setPosition(Evilstartposition);
 
-
-		sf::Vector2f bajs = cirkel.getGeometricCenter();
-		sf::Vector2f bajs2 = Evilcirkel.getGeometricCenter();
-
-
-
-		if (Evilstartposition.x > 1190 || Evilstartposition.x < 0) Evil_xVelocity *= -1;
-		if (Evilstartposition.y > 630 || Evilstartposition.y < 0) Evil_yVelocity *= -1;
+		if (Evilstartposition.x > 1190 || Evilstartposition.x < 0) Evil_velocity.x *= -1;
+		if (Evilstartposition.y > 630 || Evilstartposition.y < 0) Evil_velocity.y *= -1;
 
 		if (std::pow(startposition.x - Evilstartposition.x, 2) + std::pow(startposition.y - Evilstartposition.y, 2) < std::pow(cirkel.getRadius() + Evilcirkel.getRadius(), 2)) {
 			xVelocity = 0;
 			yVelocity = 0;
-			Evil_xVelocity = 0;
-			Evil_yVelocity = 0;
+			Evil_velocity.x = 0;
+			Evil_velocity.y = 0;
 		}
-
-		std::cout<< cirkel.getGeometricCenter().x <<" "<< cirkel.getGeometricCenter().y << " onda: ";
-		std::cout << Evilcirkel.getGeometricCenter().x << " " << Evilcirkel.getGeometricCenter().y<<"\n";
 		
+		
+
 		//render
-		window.clear(sf::Color::Blue);
-		window.draw(cirkel);
-		window.draw(Evilcirkel);
-		window.display();
+		window->clear(sf::Color::Blue);
+		window->draw(cirkel);
+		window->draw(Evilcirkel);
+		orbitingBalls.setPositions(Evildistance);
+		window->display();
 
 	}
 
