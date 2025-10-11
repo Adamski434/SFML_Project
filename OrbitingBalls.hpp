@@ -8,10 +8,18 @@ class OrbitingBalls {
 private:
 	
 	sf::RenderWindow* window;
-	const double PI = 3.141592653589793;
-	float t = PI/6;
+	const float PI = 3.141592653589793;
+	float t = PI/35;
 	float OrbitRadius;
-	std::vector<sf::CircleShape> mini_ball_pos_list;
+
+	//stepositions variabler
+	sf::Vector2f svängvector;
+	sf::Vector2f boll_position;
+	struct orb {
+		sf::CircleShape cirkel;
+		float angle;
+	};
+	std::vector<orb > mini_ball_pos_list;
 
 
 
@@ -31,29 +39,30 @@ OrbitingBalls::OrbitingBalls(int nrOfBalls, float OrbitRadius, sf::Vector2f Host
 		for (float r = 0.0; r < 2 * PI; r += ballPos) {
 			sf::CircleShape boll = sf::CircleShape(OrbitRadius / 5);
 			boll.setOrigin(boll.getGeometricCenter());
-			boll.setPosition({HostPosition.x + OrbitRadius * std::cos(r), HostPosition.x + OrbitRadius * std::sin(r) });
-			sf::Vector2f boll_pos = boll.getPosition();
-			
+			boll.setPosition({this->HostPosition.x + OrbitRadius * std::cos(r), this->HostPosition.x + OrbitRadius * std::sin(r) });
 			boll.setFillColor(sf::Color::Yellow);
-			this->mini_ball_pos_list.push_back(boll);
+
+			orb klot = { boll,r };
+			this->mini_ball_pos_list.push_back(klot);
 			//fixaskiten
-			std::cout << boll.getPosition().x << " " << boll.getPosition().y << "\n";
 		}
 
 
 
 }
 void OrbitingBalls::setPositions( sf::Vector2f new_position) {
-	sf::Vector2f svängvector;
-	for (sf::CircleShape &boll : this->mini_ball_pos_list) {
-		sf::Vector2f boll_position = boll.getPosition();
-		svängvector = { (boll.getPosition().y) * -1 / 10, (boll.getPosition().x * 1 / 10) }; 
-
-		boll_position += new_position;
-		boll.setPosition(boll_position);
+	for ( orb &boll : this->mini_ball_pos_list) {
+		boll_position = boll.cirkel.getPosition();
+		
+		boll.angle += t;
+		//boll_position
+		boll_position = new_position;
+		boll_position.x += OrbitRadius * std::cos(boll.angle);
+		boll_position.y += OrbitRadius * std::sin(boll.angle);
+		boll.cirkel.setPosition(boll_position);
 		
 		
-		window->draw(boll);
+		window->draw(boll.cirkel);
 	}
 	
 }

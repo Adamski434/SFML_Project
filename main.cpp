@@ -16,7 +16,7 @@ int main() {
 	cirkel.setOrigin(cirkel.getGeometricCenter());
 
 	sf::CircleShape Evilcirkel;
-	sf::Vector2f Evilstartposition(200,200);
+	sf::Vector2f Evilstartposition(300,300);
 	Evilcirkel.setFillColor(sf::Color::Magenta);
 	Evilcirkel.setPosition(Evilstartposition);
 	Evilcirkel.setRadius(50);
@@ -59,7 +59,6 @@ int main() {
 		if (startposition.y > 630 || startposition.y < 0) yVelocity *= -1;
 
 		Evilstartposition += Evil_velocity;
-	
 		Evildistance = Evilstartposition - Evilcirkel.getPosition();
 		Evilcirkel.setPosition(Evilstartposition);
 
@@ -79,10 +78,12 @@ int main() {
 		window->clear(sf::Color::Blue);
 		window->draw(cirkel);
 		window->draw(Evilcirkel);
-		orbitingBalls.setPositions(Evildistance);
+		orbitingBalls.setPositions(Evilstartposition);
 		window->display();
 
 	}
+
+	delete window;
 
 	return 0;
 }
