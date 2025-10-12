@@ -28,7 +28,11 @@ public:
 	sf::Vector2f HostPosition;
 	OrbitingBalls(int nrOfBalls, float OrbitRadius, sf::Vector2f HostPosition,sf::RenderWindow* fönster);
 	void setPositions( sf::Vector2f new_position);
+	int ActionStatus();
 };
+
+
+
 OrbitingBalls::OrbitingBalls(int nrOfBalls, float OrbitRadius, sf::Vector2f HostPosition, sf::RenderWindow* fönster) {
 	this->OrbitRadius = OrbitRadius;
 	this->nrOfBalls = nrOfBalls;
@@ -65,5 +69,9 @@ void OrbitingBalls::setPositions( sf::Vector2f new_position) {
 		window->draw(boll.cirkel);
 	}
 	
+
+}
+int OrbitingBalls::ActionStatus() {
+	return 
 }
 #endif

@@ -23,7 +23,7 @@ int main() {
 	Evilcirkel.setOrigin(Evilcirkel.getGeometricCenter());
 	std::cout << Evilcirkel.getPosition().x << Evilcirkel.getPosition().y<<"\n";
 	
-	OrbitingBalls orbitingBalls(2, Evilcirkel.getRadius() * 2, Evilcirkel.getPosition(),window);
+	OrbitingBalls orbitingBalls(3, Evilcirkel.getRadius() * 2, Evilcirkel.getPosition(),window);
 
 	//Physics variables
 	float xVelocity = 6;
@@ -78,6 +78,7 @@ int main() {
 		window->clear(sf::Color::Blue);
 		window->draw(cirkel);
 		window->draw(Evilcirkel);
+		switch(orBitingBalls.actionStatus())
 		orbitingBalls.setPositions(Evilstartposition);
 		window->display();
 
