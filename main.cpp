@@ -78,7 +78,7 @@ int main() {
 		window->clear(sf::Color::Blue);
 		window->draw(cirkel);
 		window->draw(Evilcirkel);
-		switch(orBitingBalls.actionStatus())
+	
 		orbitingBalls.setPositions(Evilstartposition);
 		window->display();
 

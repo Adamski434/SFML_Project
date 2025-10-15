@@ -24,12 +24,19 @@ private:
 
 
 public:
+	enum Action {
+		Orbiting = 0,
+		Free = 1
+	};
+
+	enum Action action = Orbiting;
+
 	int nrOfBalls;
 	sf::Vector2f HostPosition;
 	OrbitingBalls(int nrOfBalls, float OrbitRadius, sf::Vector2f HostPosition,sf::RenderWindow* fönster);
 	void setPositions( sf::Vector2f new_position);
 	int ActionStatus();
-};
+	};
 
 
 
@@ -48,7 +55,6 @@ OrbitingBalls::OrbitingBalls(int nrOfBalls, float OrbitRadius, sf::Vector2f Host
 
 			orb klot = { boll,r };
 			this->mini_ball_pos_list.push_back(klot);
-			//fixaskiten
 		}
 
 
@@ -71,7 +77,8 @@ void OrbitingBalls::setPositions( sf::Vector2f new_position) {
 	
 
 }
-int OrbitingBalls::ActionStatus() {
-	return 
-}
+//int OrbitingBalls::ActionStatus() {
+//	return 
+//}
+
 #endif
