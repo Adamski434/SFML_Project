@@ -1,6 +1,7 @@
-#include "SFML\Graphics.hpp"
+
 #ifndef ENEMY_HPP
 #define ENEMY_HPP
+#include <SFML\Graphics.hpp>
 
 class Enemy {
 public: 

@@ -1,15 +1,14 @@
 
-#include "SFML\Graphics.hpp"
+#include <SFML\Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <cmath>
 #include "OrbitingBalls.hpp"
 #include "EvilCircle.hpp"
-
+#include "Player.hpp"
 
 
 int main() {
-
-
 	bool isActive =  true;
 	bool BallsDropped = false;
 	std::vector<EvilCircle*> EvilCircleArray;
@@ -21,13 +20,14 @@ int main() {
 	float yVelocity = 6;
 	sf::Vector2f Evil_velocity = { 10,10 };
 
-	sf::CircleShape Playercirkel;
+
+	Player playa(window);
+/*	sf::CircleShape Playercirkel;
 	sf::Vector2f startposition(600,370);
 	Playercirkel.setFillColor(sf::Color::Green);
 	Playercirkel.setPosition(startposition);
 	Playercirkel.setRadius(33);
-	Playercirkel.setOrigin(Playercirkel.getGeometricCenter());
-
+	Playercirkel.setOrigin(Playercirkel.getGeometricCenter()); */
 
 	sf::Vector2f Evilstartposition(300,300);
 	EvilCircle* Evilcirkel = new EvilCircle(Evilstartposition,sf::Color::Magenta,50,Evil_velocity);
@@ -36,15 +36,14 @@ int main() {
 	Evilcirkel->circle->setOrigin(Evilcirkel->circle->getGeometricCenter());
 	EvilCircleArray.push_back(Evilcirkel);
 	
-	
 	OrbitingBalls orbitingBalls(2, Evilcirkel->circle->getRadius() * 2, Evilcirkel->circle->getPosition(),window);
 
-
+	sf::Music music("Over.wav");
+	music.play();
 	
 
 	while (window->isOpen()) {
 		
-
 		while (const std::optional event = window->pollEvent()) {
 			if (event->is<sf::Event::Closed>()) {
 				window->close();
@@ -54,15 +53,14 @@ int main() {
 		window->clear(sf::Color::Blue);
 
 		//movement
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) { startposition.y -= yVelocity; }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {startposition.y += yVelocity;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {startposition.x += xVelocity;}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {startposition.x -= xVelocity;}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) { playa.moveUp(); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) { playa.moveDown(); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) { playa.moveRight();}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) { playa.moveLeft();}
 		
-		Playercirkel.setPosition(startposition);
-		if (startposition.x > 1190 || startposition.x < 0) xVelocity*= -1;
-		if (startposition.y > 630 || startposition.y < 0) yVelocity *= -1;
+	
+		//if (startposition.x > 1190 || startposition.x < 0) xVelocity*= -1;
+		//if (startposition.y > 630 || startposition.y < 0) yVelocity *= -1;
 		
 
 
@@ -77,9 +75,8 @@ int main() {
 			if (evil_cirkel->circle->getPosition().x > 1190 || evil_cirkel->circle->getPosition().x < 0) evil_cirkel->SetVelocityx(-1);
 			if (evil_cirkel->circle->getPosition().y > 630 || evil_cirkel->circle->getPosition().y < 0) evil_cirkel->SetVelocityy(-1);
 			Evil_velocity = evil_cirkel->circle->getPosition();
-			if (evil_cirkel->MakesContact(Playercirkel)) {
-				xVelocity = 0;
-				yVelocity = 0;
+			if (evil_cirkel->MakesContact(playa.chudcel)) {
+				playa.setSpeed(0);
 				Evil_velocity = { 0,0 };
 		
 			}
@@ -95,10 +92,11 @@ int main() {
 
 		//render
 		
-		window->draw(Playercirkel);
+		
 		if (BallsDropped == false) {
 			orbitingBalls.setPositions(Evilcirkel->circle->getPosition());
 		}
+		window->draw(playa.chudcel);
 		window->display();
 
 	}

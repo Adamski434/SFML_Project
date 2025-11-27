@@ -1,7 +1,7 @@
-#include "Enemy.hpp"
 
 #ifndef EVILCIRCLE_HPP
 #define EVILCIRCLE_HPP
+#include "Enemy.hpp"
 
 
 class EvilCircle: public Enemy {
