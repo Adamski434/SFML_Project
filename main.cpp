@@ -22,12 +22,7 @@ int main() {
 
 
 	Player playa(window);
-/*	sf::CircleShape Playercirkel;
-	sf::Vector2f startposition(600,370);
-	Playercirkel.setFillColor(sf::Color::Green);
-	Playercirkel.setPosition(startposition);
-	Playercirkel.setRadius(33);
-	Playercirkel.setOrigin(Playercirkel.getGeometricCenter()); */
+
 
 	sf::Vector2f Evilstartposition(300,300);
 	EvilCircle* Evilcirkel = new EvilCircle(Evilstartposition,sf::Color::Magenta,50,Evil_velocity);
@@ -74,10 +69,11 @@ int main() {
 			evil_cirkel->Move();
 			if (evil_cirkel->circle->getPosition().x > 1190 || evil_cirkel->circle->getPosition().x < 0) evil_cirkel->SetVelocityx(-1);
 			if (evil_cirkel->circle->getPosition().y > 630 || evil_cirkel->circle->getPosition().y < 0) evil_cirkel->SetVelocityy(-1);
-			Evil_velocity = evil_cirkel->circle->getPosition();
-			if (evil_cirkel->MakesContact(playa.chudcel)) {
+			
+			if (evil_cirkel->MakesContact(playa.PlayerCircle)) {
 				playa.setSpeed(0);
-				Evil_velocity = { 0,0 };
+				evil_cirkel->SetVelocityx(0);
+				evil_cirkel->SetVelocityy(0);
 		
 			}
 			window->draw(*evil_cirkel->circle);
@@ -87,16 +83,12 @@ int main() {
 		
 		
 		
-
-
-
-		//render
 		
 		
 		if (BallsDropped == false) {
 			orbitingBalls.setPositions(Evilcirkel->circle->getPosition());
 		}
-		window->draw(playa.chudcel);
+		playa.draw();
 		window->display();
 
 	}

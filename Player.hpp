@@ -16,7 +16,7 @@ private:;
 	sf::Vector2f Startposition = { 600, 370 };
 	sf::Texture* texture = new sf::Texture();
 public:
-	sf::CircleShape chudcel;
+	sf::CircleShape PlayerCircle;
 	
 
 	Player(sf::RenderWindow* window);
