@@ -1,3 +1,10 @@
+Tech stack:
+- C++17
+- SFML
+- Object-oriented design
+- Real-time update loop
+- Manual memory/resource handling
+
 Wow You're looking at my Github! 
 Anyways here is the main crux of the program: The game is built with sfml-library providing an easy access API to the graphics card by being an OpenGL wrapper.
 The games main components are enemies which run into the player, and a player character which is controlled by the WASD buttons. 
