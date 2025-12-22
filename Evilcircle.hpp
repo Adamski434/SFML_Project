@@ -12,6 +12,7 @@ public:
 	sf::CircleShape* circle;
 
 	EvilCircle(sf::Vector2f startposition, sf::Color color, int radius, sf::Vector2f Velocity);
+	EvilCircle(sf::Color color, float radius, sf::Vector2f Velocity);
 	~EvilCircle();
 	void Move();
 	void SetVelocityx(int factor);

@@ -13,6 +13,15 @@ EvilCircle::EvilCircle(sf::Vector2f startposition, sf::Color color, int radius, 
 
 }
 
+EvilCircle::EvilCircle(sf::Color color, float radius, sf::Vector2f Velocity) {
+	this->circle = new sf::CircleShape();
+	this->circle->setFillColor(color);
+	this->circle->setRadius(radius);
+	this->circle->setOrigin(this->circle->getGeometricCenter());
+	this->Velocity = Velocity;
+
+}
+
 EvilCircle::~EvilCircle() {
 	delete this->circle;
 	circle = nullptr;
